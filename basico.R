@@ -195,30 +195,38 @@ library()
 # Lista todos os pacotes na biblioteca padrão
 library(lib.loc = .Library)  
 library(help = dplyr)
-library(dplyr)  # carrega o pacote dplyr
-require(dplyr)  # carrega o pacote dplyr (usado em funções: retorna FALSE se o pacote não existe)
+# Carrega o pacote dplyr
+library(dplyr)  
+# Carrega o pacote dplyr (usado em funções: retorna FALSE se o pacote não existe)
+require(dplyr)  
 
-search()  # lista os pacotes anexados e objetos anexados
-searchpaths()  # lista os pacotes e objetos anexados com o caminho
+# Lista os pacotes anexados e objetos anexados
+search()  
+# Lista os pacotes e objetos anexados com o caminho
+searchpaths()  
 
-# Lendo dados de arquivo
-dir <- getwd() # obtem o diretório atual
-setwd(dir) # seta o diretório atual
+# LENDO DADOS DE ARQUIVO
+
+# Obtem o diretório atual
+dir <- getwd()
+# Seta o diretório atual
+setwd(dir) 
 
 tab <- read.csv(
-  "Relação_OM_EB.csv",
   # nome do arquivo
-  sep = ";",
+  "Relação_OM_EB.csv",
   # separador de colunas
+  sep = ";",
   header = TRUE,
-  col.names = c("Rm", "Codom", "Unidade"),
   # nomes das colunas
-  skip = 0,
+  col.names = c("Rm", "Codom", "Unidade"),
   # nº de linhas puladas antes de ler o arquivo
-  fileEncoding = "latin1",
+  skip = 0,
   # codificação do arquivo
+  fileEncoding = "latin1",
+  # não converte string em fatores
   stringsAsFactors = F
-) # não converte string em fatores
+) 
 
 ope <- read.csv("operacoes.csv",
                 sep = ",",
@@ -235,30 +243,31 @@ fope <- read.csv(
   sep = ";",
   header = T,
   fileEncoding = "latin1",
+  # ignora linhas em blanco
   blank.lines.skip = T
-) # ignora linhas em blanco
+) 
 
-
-library(readxl)  # Carrega o pacote para ler arquivos excel
+# Carrega o pacote para ler arquivos excel
+library(readxl)  
 
 ativos <- read_xlsx(
   "ativos.xlsx",
-  sheet = 1,
   # define a planilha
-  range = "A1:M29",
+  sheet = 1,
   # define as células
-  col_names = TRUE,
+  range = "A1:M29",
   # define a 1ª linha como título
+  col_names = TRUE,
   progress = readxl_progress(),
   skip = 0
 )
 
 operacoes <- read_xlsx(
   "ativos.xlsx",
-  sheet = 5,
   # define a planilha
-  col_names = TRUE,
+  sheet = 5,
   # define a 1ª linha como título
+  col_names = TRUE,
   progress = readxl_progress(),
   skip = 0,
   col_types = c(
@@ -283,7 +292,8 @@ operacoes <- read_xlsx(
 # Usando cell-specification (cell_cols(), cell_rows(), cell_limits() e anchored())
 df <- read_excel("ativos.xlsx", sheet = "fOperacoes", range = cell_cols("A:F"))
 
-planilhas <- excel_sheets("ativos.xlsx")  # lista os nomes das planilhas
+# Lista os nomes das planilhas
+planilhas <- excel_sheets("ativos.xlsx")  
 
 # Cria uma lista com as planilhas do arquivo excel por iteração
 lista <- lapply(excel_sheets("ativos.xlsx"), read_excel, path = "ativos.xlsx")
@@ -293,55 +303,80 @@ save.image(file = "basico.RData")
 
 load("basico.RData")
 
-# Exportando arquivos
-write.csv(df, file = "dados_df.csv")  # csv
+# EXPORTANDO ARQUIVOS
 
-write.table(df, file = "dados_df.txt", sep = "\t")  # bloco de notas
+# Formato css
+write.csv(df, file = "dados_df.csv")  
 
+# Formato bloco de notas
+write.table(df, file = "dados_df.txt", sep = "\t")  
+
+# Formato excel
 library(writexl)
-write_xlsx(df, path = "dados_df.xlsx")  # excel
+write_xlsx(df, path = "dados_df.xlsx") 
 
-saveRDS(df, "dados_rds.RDS") # arquivo do R
+# Formato R
+saveRDS(df, "dados_rds.RDS")
 
 # Funções básicas
 v1 <- c(2, 4, 7, 8.5, 3)
 v2 <- c(3, 8, 9, 2.4, 5)
 
-max(v1)    # valor máximo do vetor v1
-min(v2)    # valor mínimo do vetor v2
-sum(v1)    # soma dos elementos de v1
-prod(v2)   # produto dos elementos de v2
-range(v1)  # vetor de 2 dimensões com os valores mínimos e máximos de v1
-mean(v2)   # valor médio de v2
-sort(v1)   # ordena os elementos de v1 em ordem crescente
-sort(v1, decreasing = T) # ordena os elementos de v1 em ordem decrescente
+# Valor máximo do vetor v1
+max(v1)   
+# Valor mínimo do vetor v2
+min(v2)  
+# Soma dos elementos de v1
+sum(v1)  
+# Produto dos elementos de v2
+prod(v2)
+# Vetor de 2 dimensões com os valores mínimos e máximos de v1
+range(v1)  
+# Valor médio de v2
+mean(v2) 
+# Ordena os elementos de v1 em ordem crescente
+sort(v1) 
+# Ordena os elementos de v1 em ordem decrescente
+sort(v1, decreasing = T) 
 
 # Desvia toda a saída subsequente do console para o arquivo record.txt
-sink(file = "record.txt",  # arquivo que receberá a saída
-     append = FALSE,       # FALSE: grava por cima do arquivo
-     type = "output")      # output: só desvia a saída; message: desvia as advertências
+sink(# arquivo que receberá a saída
+     file = "record.txt",  
+     # FALSE: grava por cima do arquivo
+     append = FALSE, 
+     # output: só desvia a saída; message: desvia as advertências
+     type = "output")     
 
-# executando comando de um arquivo externo
+# Executando comando de um arquivo externo
 source("simulação_monte_carlo.R")
 
 sink()
 
-# Selecionando e modificando subconjuntos de dados
+# SELECIONANDO E MODIFICANDO SUBCONJUNTO DE DADOS
+
 x <- c(1, 2, 4, NA, 9, 15, NA, 22)
-x[x >= 5] <- 20 # x: 1 2 4 NA 20 20 NA 20
-x[1:5] # seleciona os 5 primeiros elementos de x
-x[-(1:5)] # exclui os 5 primeiros elementos de x
-x[is.na(x)] <- 0 # substitui os valores omissos por zero
+
+# x: 1 2 4 NA 20 20 NA 20
+x[x >= 5] <- 20 
+# Seleciona os 5 primeiros elementos de x
+x[1:5] 
+# Exclui os 5 primeiros elementos de x
+x[-(1:5)] 
+# Substitui os valores omissos por zero
+x[is.na(x)] <- 0 
 
 x <- c(1, -2, 4, NA, 9, 15, NA, 22)
-y <- x[!is.na(x)]  # remove valores NA
+
+# Remove valores NA
+y <- x[!is.na(x)]  
 y <- abs(y)
 
-(x+1)[!is.na(x) & x>0] -> z # cria o vetor z com os valores não omisso 
-# e positivos de x, acrescidos de um
+# Cria o vetor z com os valores não omisso e positivos de x, acrescidos de um
+(x+1)[!is.na(x) & x>0] -> z  
 
 # Indexando vetor de caracteres
-fruit <- c(1, 10, 5, 20) # criando os índices
+# Criando os índices
+fruit <- c(1, 10, 5, 20) 
 names(fruit) <- c("orange", "apple", "banana", "peach")
 lunch <- fruit[c("orange", "apple")]
 
