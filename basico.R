@@ -398,3 +398,36 @@ renda <- c(75, 70, 80, 65, 70, 75, 65, 70, 70, 80, 75, 60)
 
 # Calcula a renda média amostral para cada estado
 renda_media <- tapply(renda, estados_ef, mean)
+
+# FUNÇÃO apply(): APLICADA SOBRE MATRIZ OU DATAFRAME
+
+# Carregando o conjunto de dados irir
+library(dados)
+View(iris)
+
+# Calculando a média sobre os valores das linhas
+apply(iris[, 1:4], 1, mean)
+
+# Calculando a média sobre os valores das colunas
+apply(iris[, 1:4], 2, mean)
+
+# Usando uma função personalizada
+apply(iris[, 1:4], 2, function(x){
+    mean(x) * 0.5
+})
+
+# FUNÇÃO lapply(): APLICADA SOBRE LISTA
+
+r <- list(a = 1:10, b = 1:63, c = 52:73, d = 54:2)
+
+# Calculando a média de cada elemento da lista
+lapply(r, mean)
+
+# Usando uma função personalizada
+lapply(r, function(i){
+    mean(i * 5)
+})
+
+# FUNÇÃO tapply(): USADA COM FATORES
+
+tapply(iris$Sepal.Length, iris$Species, mean)
