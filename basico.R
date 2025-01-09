@@ -1,7 +1,7 @@
 ################################################################################
 #                                                                              #
 #                         ESTUDO BÁSICO DE R                                   #
-#                         ÚLTIMA ATUALIZAÇÃO: 03 JAN 2025                      #
+#                         ÚLTIMA ATUALIZAÇÃO: 08 JAN 2025                      #
 #                                                                              #
 ################################################################################
 
@@ -11,17 +11,23 @@
 # Tipos de dados: escalares, vetores (linha ou coluna), matrizes,
 #                 dataframes e listas
 
-# Criando variáveis
+# CRIANDO VARIÁVEIS
 n = 10
 d <- 5
 7 -> s
 nome <- "douglas"
-.sobrenome <- "costa"  # variável oculta (iniciada com ponto final)
-vetor <- c(1, 4, 5, 8)    # concatena elementos (c())
 
-seq <- seq(3, 20, 2)  # gera uma sequência de 3 a 20, de 2 em 2
-seq(0, 1, length.out = 12) # gera sequência de 0 1 com 12 elementos
-seq(18)      # cria uma sequência 1, 2, 3, ... , 18
+# Variável oculta (iniciada com ponto final)
+.sobrenome <- "costa"  
+# Concatena elementos (c())
+vetor <- c(1, 4, 5, 8)    
+
+# Gera uma sequência de 3 a 20, de 2 em 2
+seq <- seq(3, 20, 2)  
+# Gera sequência de 0 1 com 12 elementos
+seq(0, 1, length.out = 12) 
+# Cria uma sequência 1, 2, 3, ... , 18
+seq(18)      
 
 # Cria um sequência de datas por ano
 seq(as.Date("2020/01/01"), as.Date("2025/01/01"), "years")
@@ -46,33 +52,44 @@ seq(ISOdatetime(2025, 1, 7, 8, 10, 0, "GMT"),
     "15 min")
 
 s <- c(1, 2, 3, 4)
-s1 <- rep(s, times = 5)  # repete todo o vetores cinco vezes
-s2 <- rep(s, each = 5)   # repete cada elemento de s cinco vezes
+# Repete todo o vetores cinco vezes
+s1 <- rep(s, times = 5)  
+# Repete cada elemento de s cinco vezes
+s2 <- rep(s, each = 5)   
 
-# Listando e removendo objetos da memória
-ls()       # lista todos os objetos
-objects()  # faz o mesmo que ls()
-ls.str()   # lista todos os objetos de forma estruturada
-ls(pattern = "o", all.names = TRUE)  # lista os objetos que correspondem as
+# LISTANDO E REMOVENDO OBJETOS DA MEMÓRIA
+
+# Lista todos os objetos
+ls()      
+# Faz o mesmo que ls()
+objects() 
+# Lista todos os objetos de forma estruturada
+ls.str()   
+# Lista os objetos que correspondem as
 #          opções fornecidas:
 #                           pattern: expessão regular
 #                           all.names: TRUE -> lista variáveis ocultas tbm.
-rm(s)     # remove a variável s
-rm(list = ls())      # remove todas as variáveis da memória
+ls(pattern = "o", all.names = TRUE)  
+# Remove a variável s
+rm(s)   
+# Remove todas as variáveis da memória
+rm(list = ls())     
 
-# Instalando pacotes
+# INSTALANDO PACOTES
 install.packages("dplyr")
 
-pacotes <- installed.packages()  # lista os pacotes instalados
+# Lista os pacotes instalados
+pacotes <- installed.packages()  
 
 n_pacotes <- length(pacotes)
 
-# Pedindo ajuda online
+# PEDINDO AJUDA ONLINE
+
 ? lm
 help(rm)
 help.start()
 
-# Entendendo objetos
+# ENTENDENDO OBJETOS
 
 # Objetos possuem: nome
 #                  conteúdo
@@ -82,29 +99,33 @@ help.start()
 x <- 9
 y <- c(3, 5, 6)
 z <- "paulo"
-a <- c(2, "lua", 8)  # um elemento caracter converte os outros em caracter!
+# Um elemento caracter converte os outros em caracter!
+a <- c(2, "lua", 8)  
 
-mode(x)
-mode(y)
-mode(z)
-mode(a)
+mode(x); mode(y); mode(z); mode(a)
 
-length(x)
-length(y)
-length(z)
+length(x); length(y); length(z)
 
-vector(mode = "numeric", length = 4) # cria um vetor numérico com 4 elementos
-numeric(4)  # faz o mesmo que o comando acima
+# Cria um vetor numérico com 4 elementos
+vector(mode = "numeric", length = 4) 
+# Faz o mesmo que o comando acima
+numeric(4)  
 
-vector(mode = "logical", length = 4) # cria um vetor lógico com 4 elementos
-logical(4)  # faz o mesmo que o comando acima
+# Cria um vetor lógico com 4 elementos
+vector(mode = "logical", length = 4) 
+# Faz o mesmo que o comando acima
+logical(4)  
 
-vector(mode = "character", length = 4) # cria um vetor de caracteres com 4 elementos
-character(4) # faz o mesmo que o comando acima
+# Cria um vetor de caracteres com 4 elementos
+vector(mode = "character", length = 4) 
+# Faz o mesmo que o comando acima
+character(4) 
 
-is.vector(a)  # verifica se a é um vetor e dá um retorno lógico (TRUE/FALSE)
+# Verifica se a é um vetor e dá um retorno lógico (TRUE/FALSE)
+is.vector(a)  
 
-vetor_logico <- y > 13 # vetor lógico
+# Vetor lógico
+vetor_logico <- y > 13 
 
 # == igual
 # != diferente
@@ -116,13 +137,15 @@ vetor_logico <- y > 13 # vetor lógico
 
 vetor_nan <- c(1, 0 / 0, 3.5, Inf)
 
-vetor_logico2 <- is.nan(vetor_nan) # cria um vetor lógico com o valor TRUE
-#                                    para o correspondente NaN
+# cria um vetor lógico com o valor TRUE para o correspondente NaN
+vetor_logico2 <- is.nan(vetor_nan) 
 
 z <- c(1:3, NA)
-int <- is.na(z) # cria um vetor lógico com o valor TRUE para o correspondente NA
+# Cria um vetor lógico com o valor TRUE para o correspondente NA
+int <- is.na(z) 
 
-mat1 <- matrix(1:9, nrow = 3, ncol = 3)  # cria uma matriz 3x3
+# Cria uma matriz 3x3
+mat1 <- matrix(1:9, nrow = 3, ncol = 3)  
 
 mat2 <- matrix(1:9,
                nrow = 3,
@@ -131,32 +154,46 @@ mat2 <- matrix(1:9,
 
 t <- 1:3
 d <- c("x1", "x2", "x3")
-df1 <- data.frame(t, d)   # cria um dataframe
+# Cria um dataframe
+df1 <- data.frame(t, d)   
 
-lista_var <- list(x = 1:5, y = c("a", "b"))  # cria uma lista
+# Cria uma lista
+lista_var <- list(x = 1:5, y = c("a", "b"))  
 
-exp1 <- expression(x / (y + exp(z)))  # cria uma expressão
+# Cria uma expressão
+exp1 <- expression(x / (y + exp(z)))  
 eval(exp1, envir = list(x = 3, y = 2.5, z = 1)) # avalia uma expressão
 
-# Resumindo dados
-summary(df) # visualiza dados estatísticos do objeto
-str(df)     # visualiza a estrutura do objeto
-names(df)   # lista os nomes dos elementos do objeto
-class(df)   # recupera a classe interna do objeto
+# RESUMINDO DADOS
 
-# Imprimindo objetos na tela
+# Visualiza dados estatísticos do objeto
+summary(df) 
+# Visualiza a estrutura do objeto
+str(df)   
+# Lista os nomes dos elementos do objeto
+names(df)   
+# Recupera a classe interna do objeto
+class(df)   
+
+# IMPRIMINDO OBJETOS NA TELA
 print(a)
-print(a, quote = F)  # imprimindo caracteres sem aspas
+# Imprimindo caracteres sem aspas
+print(a, quote = F)  
 
 b <- 2.6238
-print(b, digits = 2) # imprimindo com número de dígitos definido
+# Imprimindo com número de dígitos definido
+print(b, digits = 2) 
 
 c <- table(c(0, 3, 4), c(3, 6, 0))
-print(c, zero.print = ".")  # imprimindo com ponto no lugar dos zeros (p/ tabelas)
+# Imprimindo com ponto no lugar dos zeros (p/ tabelas)
+print(c, zero.print = ".")  
 
-# Carregando e anexando pacotes
-library()    # lista todos os pacotes disponiveis da versão vigente
-library(lib.loc = .Library)  # lista todos os pacotes na biblioteca padrão
+# CARREGANDO E ANEXANDO PACOTES
+
+# Lista todos os pacotes disponiveis da versão vigente
+library()    
+# Lista todos os pacotes na biblioteca padrão
+library(lib.loc = .Library)  
 library(help = dplyr)
 library(dplyr)  # carrega o pacote dplyr
 require(dplyr)  # carrega o pacote dplyr (usado em funções: retorna FALSE se o pacote não existe)
