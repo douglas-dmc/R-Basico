@@ -12,6 +12,7 @@
 #                 dataframes e listas
 
 # CRIANDO VARIÁVEIS
+
 n = 10
 d <- 5
 7 -> s
@@ -76,6 +77,7 @@ rm(s)
 rm(list = ls())     
 
 # INSTALANDO PACOTES
+
 install.packages("dplyr")
 
 # Lista os pacotes instalados
@@ -213,20 +215,20 @@ dir <- getwd()
 setwd(dir) 
 
 tab <- read.csv(
-  # nome do arquivo
-  "Relação_OM_EB.csv",
-  # separador de colunas
-  sep = ";",
-  header = TRUE,
-  # nomes das colunas
-  col.names = c("Rm", "Codom", "Unidade"),
-  # nº de linhas puladas antes de ler o arquivo
-  skip = 0,
-  # codificação do arquivo
-  fileEncoding = "latin1",
-  # não converte string em fatores
-  stringsAsFactors = F
-) 
+              # nome do arquivo
+              "Relação_OM_EB.csv",
+              # separador de colunas
+              sep = ";",
+              header = TRUE,
+              # nomes das colunas
+              col.names = c("Rm", "Codom", "Unidade"),
+              # nº de linhas puladas antes de ler o arquivo
+              skip = 0,
+              # codificação do arquivo
+              fileEncoding = "latin1",
+              # não converte string em fatores
+              stringsAsFactors = F
+            ) 
 
 ope <- read.csv("operacoes.csv",
                 sep = ",",
@@ -239,51 +241,51 @@ dat <- read.csv("wdbc.csv",
                 dec = ",")
 
 fope <- read.csv(
-  "foperacoes.csv",
-  sep = ";",
-  header = T,
-  fileEncoding = "latin1",
-  # ignora linhas em blanco
-  blank.lines.skip = T
-) 
+              "foperacoes.csv",
+              sep = ";",
+              header = T,
+              fileEncoding = "latin1",
+              # ignora linhas em blanco
+              blank.lines.skip = T
+            ) 
 
 # Carrega o pacote para ler arquivos excel
 library(readxl)  
 
 ativos <- read_xlsx(
-  "ativos.xlsx",
-  # define a planilha
-  sheet = 1,
-  # define as células
-  range = "A1:M29",
-  # define a 1ª linha como título
-  col_names = TRUE,
-  progress = readxl_progress(),
-  skip = 0
-)
+                  "ativos.xlsx",
+                  # define a planilha
+                  sheet = 1,
+                  # define as células
+                  range = "A1:M29",
+                  # define a 1ª linha como título
+                  col_names = TRUE,
+                  progress = readxl_progress(),
+                  skip = 0
+                )
 
 operacoes <- read_xlsx(
-  "ativos.xlsx",
-  # define a planilha
-  sheet = 5,
-  # define a 1ª linha como título
-  col_names = TRUE,
-  progress = readxl_progress(),
-  skip = 0,
-  col_types = c(
-    "text",
-    "text",
-    "numeric",
-    "date",
-    "numeric",
-    "numeric",
-    "numeric",
-    "numeric",
-    "numeric",
-    "numeric",
-    "logical"
-  )
-)
+                      "ativos.xlsx",
+                      # define a planilha
+                      sheet = 5,
+                      # define a 1ª linha como título
+                      col_names = TRUE,
+                      progress = readxl_progress(),
+                      skip = 0,
+                      col_types = c(
+                        "text",
+                        "text",
+                        "numeric",
+                        "date",
+                        "numeric",
+                        "numeric",
+                        "numeric",
+                        "numeric",
+                        "numeric",
+                        "numeric",
+                        "logical"
+                      )
+                    )
 
 # read_xls   -> para arquivos com extensão .xls
 # read_xlsx  -> para arquivos com extensão .xlsx
@@ -380,3 +382,19 @@ fruit <- c(1, 10, 5, 20)
 names(fruit) <- c("orange", "apple", "banana", "peach")
 lunch <- fruit[c("orange", "apple")]
 
+# FATORES
+
+estados <- c("SP", "RJ", "RJ", "RS", "BA", "PR",
+             "ES", "SP", "MG", "BA", "MT", "MG")
+
+# Cria os fatores
+estados_ef <- factor(estados)
+
+# Fornece os níveis
+levels(estados_ef)
+
+# Cria o vetor de rendas a serem aplicadas aos estados
+renda <- c(75, 70, 80, 65, 70, 75, 65, 70, 70, 80, 75, 60)
+
+# Calcula a renda média amostral para cada estado
+renda_media <- tapply(renda, estados_ef, mean)
