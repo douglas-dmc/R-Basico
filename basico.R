@@ -464,3 +464,8 @@ with(df_with, num * cost)
 # FUNÇÃO within(): COPIA O DATAFRAME E ADICIONA UMA COLUNA COM O RESULTADO DA EXPRESSÃO
 
 df_within <- within(df_with, Produto <-  num * cost)
+
+# FUNÇÃO ifelse(): ifelse(vetor_condições, valor_TRUE, valor_FALSE)
+
+nun <- c(2, 4, 7, 9, 16, 21, 22, 41)
+ifelse(nun %% 2 == 0, "par", "impar")
