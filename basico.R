@@ -451,3 +451,16 @@ tapply(iris$Sepal.Length, iris$Species, mean)
 mapply(rep, 1:4, 4:1)
 
 list(rep(1,4), rep(2,3), rep(3,2), 4)
+
+# FUNÇÃO with(): ATUA SOMENTE SOBRE DATAFRAME E GERA UM VETOR COMO RESULTADO
+
+num <- c(rep(100, 5))
+cost <- c(1200, 1300, 1400, 1500, 1600)
+
+df_with <- data.frame(num, cost)
+
+with(df_with, num * cost)
+
+# FUNÇÃO within(): COPIA O DATAFRAME E ADICIONA UMA COLUNA COM O RESULTADO DA EXPRESSÃO
+
+df_within <- within(df_with, Produto <-  num * cost)
