@@ -416,7 +416,7 @@ apply(iris[, 1:4], 2, function(x){
     mean(x) * 0.5
 })
 
-# FUNÇÃO lapply(): APLICADA SOBRE LISTA
+# FUNÇÃO lapply(): RECEBE VETOR, LISTA OU DATAFRAME E SEMPRE GERA UMA LISTA
 
 r <- list(a = 1:10, b = 1:63, c = 52:73, d = 54:2)
 
@@ -428,6 +428,26 @@ lapply(r, function(i){
     mean(i * 5)
 })
 
+# FUNÇÃO sapply(): FORMA SIMPLIFICADA DO lapply() - GERA UM VETOR PARA UM VETOR, 
+#                  UMA LISTA PARA UMA LISTA E UMA MATRIS PARA UM DATAFRAME
+
+# Vetor que gera outro vetor
+sapply(c(1,3,5,7), function(x){
+    x <- x ** 2
+})
+
+# Dataframe que gera uma matriz
+sapply(data.frame(1:3, 6:8, 10:12), function(w){
+    w <- w * 10
+})
+
 # FUNÇÃO tapply(): USADA COM FATORES
 
 tapply(iris$Sepal.Length, iris$Species, mean)
+
+# FUNÇÃO mapply(): VERSÃO MULTIVARIADA DE sapply()
+
+# As duas linhas de código a seguir produzem a mesma saída
+mapply(rep, 1:4, 4:1)
+
+list(rep(1,4), rep(2,3), rep(3,2), 4)
