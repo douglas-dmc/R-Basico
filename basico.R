@@ -469,3 +469,118 @@ df_within <- within(df_with, Produto <-  num * cost)
 
 nun <- c(2, 4, 7, 9, 16, 21, 22, 41)
 ifelse(nun %% 2 == 0, "par", "impar")
+
+# ALGEBRA MATRICIAL
+
+# Criando matrizes (padrão por coluna)
+M <- matrix(data = 3:11, nrow = 3, ncol = 3)
+
+# Criando matrizes por linha
+M_t <- matrix(data = 3:11, nrow = 3, ncol = 3, byrow = TRUE)
+
+# Criando matrizes com cbind() e rbind()
+A <- cbind(c(1, 3, 6), c(4, 5, 7), c(9, 4, 0))
+
+A_t <- rbind(c(1, 3, 6), c(4, 5, 7), c(9, 4, 0))
+
+# Inserindo linha e colunas em uma matriz
+M_linha <- rbind(M, c(-2, 4,-8))
+
+M_coluna <- cbind(M, c(-3, 4, 7))
+
+# Alterando linhas e colunas em uma matriz
+M_linha <- M_linha[c(4, 3, 2, 1),]
+
+M_coluna <- M_coluna[,c(4, 2, 3, 1)]
+
+# Nomeando linhas e colunas de umz matrix
+M <- matrix(data = 3:11, nrow = 3, ncol = 3, dimnames = list(c("l1","l2","l3"), 
+                                                             c("c1","c2","c3")))
+
+# Criando matrizes com vetores
+vec <- c(1, 7, 3, 4, 9, 11, 0, -1, 5, -4, 10)
+
+M_vec <- matrix(vec, nrow = 3)
+
+# Verificando se o objeto é uma matriz
+is.matrix(M)
+
+# Criando uma matrix nula
+M_0 <- matrix(0, nrow = 3, ncol = 3)
+
+# Acessando elementos de uma matriz
+M[2,3]  # linha 2 e coluna 3
+M[,2]   # todas as linha da coluna 2
+M[1,]   # todas as coluna da linha 1
+
+# Criando uma matriz unitária
+M_1 <- matrix(1, nrow = 3, ncol = 3)
+
+# Criando uma matriz diagonal
+M_diag <- diag(1:3, 3)
+
+v <- c(8, -2, 4)
+M_diag2 <- diag(v, 3)
+
+# Alterando a diagonal principal de uma matrix
+diag(M_diag) <- c(5, 2, 8)
+
+# Criando uma matriz identidade
+M_ide <- diag(1, 3)
+
+# Somando e subtraindo matrizes
+ss <- sample(1:99, 9, replace = TRUE)
+
+M1 <- matrix(ss, nrow = 3, ncol = 3)
+
+M2 <- matrix(round(ss/3), nrow = 3, ncol = 3)
+
+M_soma <-  M1 + M2
+
+M_subtracao <- M1 - M2
+
+# Multiplicando por um escalar
+k <- 6
+
+M_prod <- M2 * k
+
+# Multiplicação elemento a elemento (matrizes de mesma dimensão)
+ifelse(dim(M1)  == dim(M2), M_prod_elem <- M1 * M2, 
+       print("As matrizes não têm a mesma dimensão!"))
+
+# Multiplicação matricial M3(n,m) x M4(m,p)
+M3 <- matrix(data = sample(1:25, 8, replace = TRUE), nrow = 2)
+
+M4 <- matrix(data = sample(1:35, 8, replace = TRUE), ncol = 2)
+
+ifelse(dim(M3)[2] == dim(M4)[1], M_prod_mat <- M3 %*% M4, 
+       print("As matrizes não têm dimensões compatíveis!"))
+
+# Transpondo uma matriz
+M1_t <- t(M1)
+
+# Achando o determinando de uma matriz
+det_M1 <- det(M1)
+
+# Invertendo uma matriz
+
+cond1 <- dim(M1)[1] == dim(M1)[2]
+cond2 <- det(M1) != 0
+
+if(cond1 & cond2){
+    M1_inv <- solve(M1)
+} else {
+    cat("A matriz não é inversível")
+}
+
+# Achando o traço de uma matriz
+tr <- sum(diag(M1))
+
+# Achando autovalores e autovetores
+E <- eigen(M1)
+
+# Autovalores
+E[1]
+
+# Autovetores
+E[2]
