@@ -1,7 +1,7 @@
 ################################################################################
 #                                                                              #
 #                         ESTUDO BÁSICO DE R                                   #
-#                         ÚLTIMA ATUALIZAÇÃO: 08 JAN 2025                      #
+#                         ÚLTIMA ATUALIZAÇÃO: 13 JAN 2025                      #
 #                                                                              #
 ################################################################################
 
@@ -20,7 +20,7 @@ nome <- "douglas"
 
 # Variável oculta (iniciada com ponto final)
 .sobrenome <- "costa"  
-# Concatena elementos (c())
+# Concatena elementos c()
 vetor <- c(1, 4, 5, 8)    
 
 # Gera uma sequência de 3 a 20, de 2 em 2
@@ -55,6 +55,7 @@ seq(ISOdatetime(2025, 1, 7, 8, 10, 0, "GMT"),
 s <- c(1, 2, 3, 4)
 # Repete todo o vetores cinco vezes
 s1 <- rep(s, times = 5)  
+
 # Repete cada elemento de s cinco vezes
 s2 <- rep(s, each = 5)   
 
@@ -93,10 +94,10 @@ help.start()
 
 # ENTENDENDO OBJETOS
 
-# Objetos possuem: nome
-#                  conteúdo
-#                  atributos: - mode: numerico, caracter, complexo e lógico
-#                             - length: nº de elementos
+# Objetos têm: nome
+#              conteúdo
+#              atributos: - mode: inteiro, numerico, caracter, complexo e lógico
+#                         - length: nº de elementos
 
 x <- 9
 y <- c(3, 5, 6)
@@ -108,17 +109,17 @@ mode(x); mode(y); mode(z); mode(a)
 
 length(x); length(y); length(z)
 
-# Cria um vetor numérico com 4 elementos
+# Cria um vetor numérico simples com 4 elementos
 vector(mode = "numeric", length = 4) 
 # Faz o mesmo que o comando acima
 numeric(4)  
 
-# Cria um vetor lógico com 4 elementos
+# Cria um vetor lógico simples com 4 elementos
 vector(mode = "logical", length = 4) 
 # Faz o mesmo que o comando acima
 logical(4)  
 
-# Cria um vetor de caracteres com 4 elementos
+# Cria um vetor de caracteres simples com 4 elementos
 vector(mode = "character", length = 4) 
 # Faz o mesmo que o comando acima
 character(4) 
@@ -149,7 +150,7 @@ int <- is.na(z)
 # Cria uma matriz 3x3
 mat1 <- matrix(1:9, nrow = 3, ncol = 3)  
 
-mat2 <- matrix(1:9,
+mat2 <- matrix(data = 1:9,
                nrow = 3,
                ncol = 3,
                dimnames = list(c("y1", "y2", "y3"), c("x1", "x2", "x3")))
@@ -157,7 +158,7 @@ mat2 <- matrix(1:9,
 t <- 1:3
 d <- c("x1", "x2", "x3")
 # Cria um dataframe
-df1 <- data.frame(t, d)   
+df <- data.frame(t, d)   
 
 # Cria uma lista
 lista_var <- list(x = 1:5, y = c("a", "b"))  
@@ -512,6 +513,7 @@ M_0 <- matrix(0, nrow = 3, ncol = 3)
 M[2,3]  # linha 2 e coluna 3
 M[,2]   # todas as linha da coluna 2
 M[1,]   # todas as coluna da linha 1
+M[,2:3] # todas as linhas das colunas 2 e 3
 
 # Criando uma matriz unitária
 M_1 <- matrix(1, nrow = 3, ncol = 3)
@@ -561,6 +563,11 @@ M1_t <- t(M1)
 
 # Achando o determinando de uma matriz
 det_M1 <- det(M1)
+
+# Achando a matriz adjunta (matriz transposta dos cofatores)
+library(matlib)
+
+M_adjunta <- adjoint(M1)
 
 # Invertendo uma matriz
 
