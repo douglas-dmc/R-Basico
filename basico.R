@@ -417,6 +417,9 @@ apply(iris[, 1:4], 2, function(x){
     mean(x) * 0.5
 })
 
+# Alterando os valores da matriz ou dataframe
+apply(iris[, 1:4], 1:2, function(x) x + 2)
+
 # FUNÇÃO lapply(): RECEBE VETOR, LISTA OU DATAFRAME E SEMPRE GERA UMA LISTA
 
 r <- list(a = 1:10, b = 1:63, c = 52:73, d = 54:2)
@@ -430,7 +433,7 @@ lapply(r, function(i){
 })
 
 # FUNÇÃO sapply(): FORMA SIMPLIFICADA DO lapply() - GERA UM VETOR PARA UM VETOR, 
-#                  UMA LISTA PARA UMA LISTA E UMA MATRIS PARA UM DATAFRAME
+#                  UMA LISTA PARA UMA LISTA E UMA MATRIZ PARA UM DATAFRAME
 
 # Vetor que gera outro vetor
 sapply(c(1,3,5,7), function(x){
