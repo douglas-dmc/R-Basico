@@ -52,7 +52,7 @@ ggplot(df_portfolio, aes(y = Aporte, x = fct_rev(fct_inorder(Ativo)),
     geom_bar(stat = "identity", width = .75, show.legend = F) + 
     coord_flip() +
     labs(
-        x = "Ticker (FII e FI-INFRA",
+        x = "Ticker (FII e FI-INFRA)",
         y = "Custo de Aquisição (R$)",
         color = "Aporte (R$)",
         title = "Gráfico de Custo de Aquisição por Ativo"
