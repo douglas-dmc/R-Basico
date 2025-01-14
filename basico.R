@@ -483,6 +483,22 @@ df_within <- within(df_with, Produto <-  num * cost)
 nun <- c(2, 4, 7, 9, 16, 21, 22, 41)
 ifelse(nun %% 2 == 0, "par", "impar")
 
+# FUNÇÃO subset() - subset(x, subset, select, drop = FALSE)
+
+# Extraindo as operações do RZTR11 do conjunto de dados 'operacoes'
+subset(
+      x = operacoes,
+      subset = Ticker == "RZTR11",
+      select = c("Ticker", "Data da Operacao", "Nr Cotas", "Preco Total")
+)
+
+# Extraindo as operações entre datas
+subset(
+      operacoes,
+      'Data da Operacao' >= "2024-12-01",
+      c("Ticker", "Data da Operacao", "Preco Total")
+)
+
 # ALGEBRA MATRICIAL
 
 # Criando matrizes (padrão por coluna)
