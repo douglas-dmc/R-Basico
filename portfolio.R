@@ -47,9 +47,8 @@ colnames(df_portfolio) <- c("Aporte", "Nr de Cotas", "Preco Medio", "Ativo")
 library(ggplot2)
 library(forcats)
 
-ggplot(df_portfolio, aes(y = Aporte, x = fct_rev(fct_inorder(Ativo)), 
-                         fill = Ativo)) +
-    geom_bar(stat = "identity", width = .75, show.legend = F) + 
+ggplot(df_portfolio, aes(y = Aporte, x = fct_rev(fct_inorder(Ativo)))) +
+    geom_bar(stat = "identity", width = .75, show.legend = F, fill = "dodgerblue") + 
     coord_flip() +
     labs(
         x = "Ticker (FII e FI-INFRA)",
