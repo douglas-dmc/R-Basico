@@ -449,12 +449,21 @@ sapply(data.frame(1:3, 6:8, 10:12), function(w){
 
 tapply(iris$Sepal.Length, iris$Species, mean)
 
-# FUNÇÃO mapply(): VERSÃO MULTIVARIADA DE sapply()
+# FUNÇÃO mapply(): VERSÃO MULTIVARIADA DE sapply() - GERA UM VETOR
 
 # As duas linhas de código a seguir produzem a mesma saída
 mapply(rep, 1:4, 4:1)
 
 list(rep(1,4), rep(2,3), rep(3,2), 4)
+
+# Criando uma matriz
+mapply(rep, 1:3, 4)
+
+# Comparando vetores (elemento a elemento)
+mapply(max, c(1, 3, 4, 5), c( 2, 4, 1, 9))
+
+# Multiplicando elementos de dois vetores
+mapply(function(e1, e2) e1 * e2, c(1, 3, 4, 5), c( 2, 4, 1, 9))
 
 # FUNÇÃO with(): ATUA SOMENTE SOBRE DATAFRAME E GERA UM VETOR COMO RESULTADO
 
