@@ -499,6 +499,47 @@ subset(
       c("Ticker", "Data da Operacao", "Preco Total")
 )
 
+# ARRAYS
+
+# Diferenciando vetor de array
+vv <- c(2, 4, 6, 4)  # vetor: não possui dimensão
+is.vector(vv)  # TRUE
+is.array(vv)   # FALSE
+
+dim(vv) <- 4   # setando uma dimensão para vv
+is.array(vv)   # TRUE
+
+# Criando array
+aa <- array(1:20, dim = c(4, 5))
+
+ii <- array(c(1:3, 3:1), dim = c(3, 2))
+
+yy <- array(1:9, dim = c(3, 3), dimnames = list(c("y1", "y2", "y3"), 
+                                                c("x1", "x2", "x3")))
+# Extraindo elementos de aa com a matriz de índice ii
+aa[ii] # saída: 9 6 3
+
+# Substituindo elementos por zero numa matriz
+aa[ii] <- 0
+
+# Calculando o produto externo de dois arrays (outer() ou %o%)
+a1 <- array(1:4, dim = 4)
+b1 <- array(5:8, dim = 4)
+
+ab1 <- a1 %o% b1
+
+ab2 <- outer(a1, b1, "*")  # ab1 = ab2
+
+a2 <- array(1:4, dim = c(2, 2))
+b2 <- array(5:8, dim = c(2, 2))
+
+ab3 <- a2 %o% b2
+
+# Permutando os índices de um array (transpondo um array)
+A <- array(1:24, 2:4)  # vetor dimensão: 2 3 4
+
+At <- aperm(A, c(2, 1, 3))  # indices do vetor dimensão: 2 1 3
+
 # ALGEBRA MATRICIAL
 
 # Criando matrizes (padrão por coluna)
@@ -538,10 +579,10 @@ is.matrix(M)
 M_0 <- matrix(0, nrow = 3, ncol = 3)
 
 # Acessando elementos de uma matriz
-M[2,3]  # linha 2 e coluna 3
-M[,2]   # todas as linha da coluna 2
-M[1,]   # todas as coluna da linha 1
-M[,2:3] # todas as linhas das colunas 2 e 3
+M[2, 3]  # linha 2 e coluna 3
+M[, 2]   # todas as linha da coluna 2
+M[1, ]   # todas as coluna da linha 1
+M[, 2:3] # todas as linhas das colunas 2 e 3
 
 # Criando uma matriz unitária
 M_1 <- matrix(1, nrow = 3, ncol = 3)
