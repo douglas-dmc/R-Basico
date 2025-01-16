@@ -593,6 +593,9 @@ M_diag <- diag(1:3, 3)
 v <- c(8, -2, 4)
 M_diag2 <- diag(v, 3)
 
+# Extraindo a diagonal principal de uma matriz
+dp <- diag(M_diag2)
+
 # Alterando a diagonal principal de uma matrix
 diag(M_diag) <- c(5, 2, 8)
 
@@ -639,8 +642,7 @@ library(matlib)
 M_adjunta <- adjoint(M1)
 
 # Invertendo uma matriz
-
-cond1 <- dim(M1)[1] == dim(M1)[2]
+cond1 <- dim(M1)[1] == dim(M1)[2] # ou nrow(M1) == ncol(M1)
 cond2 <- det(M1) != 0
 
 if(cond1 & cond2){
@@ -652,11 +654,27 @@ if(cond1 & cond2){
 # Achando o traço de uma matriz
 tr <- sum(diag(M1))
 
-# Achando autovalores e autovetores
-E <- eigen(M1)
+# Achando autovalores e autovetores de uma matriz simétrica
+E <- eigen(M1)  # gera uma lista de dois componentes
 
-# Autovalores
-E[1]
+# Autovalores (vetor)
+E[1] # ou E$values
 
-# Autovetores
-E[2]
+# Autovetores (matriz)
+E[2] # ou E$vectores
+
+# Achando apenas os autovalores
+E_valores <- eigen(M1, only.values = TRUE)$values
+
+# Resolvendo um sistema linear
+A <- array(c(3, 2, 2, 3), dim = c(2, 2))
+b <- c(6, 5)
+
+x <- solve(A, b)
+# x <- solve(A) %*% b: forma numericamente ineficiente e instavel!
+
+# Decomposição em valores singulares: matriz retangular
+R <- array(2:7, dim = c(3, 2))
+
+dvs <- svd(R) # gera uma lista com três matrizes: matrizes colunas 
+              # ortonormais 'u' e 'v' e uma matriz diagonal positiva 'd'
