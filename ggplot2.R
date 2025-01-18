@@ -154,3 +154,31 @@ ggplot(data = diamonds) +
 ggplot(data = diamonds) +
     geom_bar(mapping = aes(x = cut, fill = clarity), 
              position = position_dodge2(padding = 0.2, reverse = T))
+
+# Alterando o sistema de coordenadas do gráfico
+ggplot(data = mpg) +
+    geom_boxplot(mapping = aes(x = class, y = hwy)) +
+    coord_flip()  # troca os eixos x e y
+
+# Definindo a razão de aspecto (largura/altura) correta para mapas
+nz <- map_data("nz")
+
+ggplot(data = nz) +
+    geom_polygon(mapping = aes(long, lat, group = group),
+                 fill = "white", colour = "black")
+
+ggplot(data = nz) +
+    geom_polygon(mapping = aes(long, lat, group = group),
+                 fill = "white", colour = "black") +
+    coord_quickmap()
+
+# Usando coordenadas polares
+bar <- ggplot(data = diamonds) +
+       geom_bar(mapping = aes(x = cut, fill = cut),
+                show.legend = FALSE,
+                width = 1) +
+       theme(aspect.ratio = 1) +
+       labs(x = NULL, y = NULL)
+
+bar + coord_flip()
+bar + coord_polar()
