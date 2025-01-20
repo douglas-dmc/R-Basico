@@ -104,6 +104,9 @@ select(flights, last_col())
 # Selecionando colunas com a função contains()
 select(flights, contains("de"))
 
+# Selecionando colunas no modo case sensitive
+select(flights, contains("TIME", ignore.case = FALSE))
+
 # Selecionando colunas com a função matches()
 select(flights, matches("(.)\\1")) # utiliza uma expressão regular
 
@@ -146,3 +149,33 @@ rename(flights, all_of(nams))
 rename_with(flights, toupper, month)
 
 rename_with(flights, tolower, month)
+
+# Função mutate()
+
+# Adicionando duas novas colunas que são funções de colunas existentes
+flights_new <- select(flights, year:day, ends_with("delay"), distance, air_time)
+
+mutate(flights_new, gain = arr_delay - dep_delay,
+                    speed = distance / air_time)
+
+# Mantendo apenas as colunas criadas em outro dataframe: transmute()
+transmute(flights, gain = arr_delay - dep_delay,
+                   hours = air_time / 60,
+                   gain_per_hour = gain / hours)
+
+# Escolhendo o posicionamento das novas colunas 
+mutate(flights_new, gain = arr_delay - dep_delay,
+       speed = distance / air_time, .before = day)
+
+mutate(flights_new, gain = arr_delay - dep_delay,
+       speed = distance / air_time, .after = day)
+
+# Deletando e modificando colunas
+mutate(flights_new, year = NULL,
+                    distance = distance * 1.60934) # convertendo milhas para km
+
+# Modificando várias colunas: across()
+mutate(flights_new, across(ends_with("delay"), 
+                           function(x){ x - mean(x, na.rm = T) }))
+
+
