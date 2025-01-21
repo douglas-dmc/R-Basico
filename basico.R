@@ -1,7 +1,7 @@
 ################################################################################
 #                                                                              #
 #                         ESTUDO BÁSICO DE R                                   #
-#                         ÚLTIMA ATUALIZAÇÃO: 13 JAN 2025                      #
+#                         ÚLTIMA ATUALIZAÇÃO: 21 JAN 2025                      #
 #                                                                              #
 ################################################################################
 
@@ -678,3 +678,40 @@ R <- array(2:7, dim = c(3, 2))
 
 dvs <- svd(R) # gera uma lista com três matrizes: matrizes colunas 
               # ortonormais 'u' e 'v' e uma matriz diagonal positiva 'd'
+    
+# INTERAGINDO COM ARQUIVOS DO S.O.
+
+# Listando arquivos de um diretório
+list.files(
+           path = getwd(),
+           full.names = T,
+           include.dirs = T,
+           all.files = T,
+           recursive = T
+)
+
+# Listando arquivos usando expressão regular
+list.files(path = getwd(),
+           pattern = "*.RData$")
+
+# Listando os diretórios
+list.dirs(recursive = F)
+
+# Apagando arquivos
+meu_arquivo <- 'tempfile.csv'
+
+write.csv(x = data.frame(x = 1:10), file = meu_arquivo)
+
+file.remove(meu_arquivo) # dá um retorno TRUE/FALSE
+
+# Apagando diretórios
+dir.create('temp')
+
+meu_arquivo <- 'temp/tempfile.csv'
+
+write.csv(x = data.frame(x = 1:10), file = meu_arquivo)
+
+unlink(x = 'temp', recursive = TRUE)
+
+# Verificando a existência de um diretório
+dir.exists('temp') # d´pa um retorno TRUE/FALSE
