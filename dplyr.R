@@ -61,6 +61,8 @@ arrange(grupo, desc(month))  # os dados não foram agrupados por carrier
 
 arrange(grupo, desc(month), .by_group = TRUE) # os dados foram agrupados
 
+arrange(flights, desc(month), day, .group_by = carrier) # dados agrupados
+
 # Usando função personalizada para reordenar os dados
 fun_arrange <- function(.data, var){
     arrange(.data, {{ var }}) # é necessário envolver a coluna com chaves duplas
