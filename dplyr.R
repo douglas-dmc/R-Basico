@@ -180,4 +180,50 @@ mutate(flights_new, year = NULL,
 mutate(flights_new, across(ends_with("delay"), 
                            function(x){ x - mean(x, na.rm = T) }))
 
+# Função summarize(): útil quando usada em conjunto com group_by()
 
+# Calculando a média do atraso na chegada
+summarize(flights, delay = mean(dep_delay, na.rm = TRUE)) # gera uma linha de resposta
+
+# Calculando a média de atraso na chegada por dia
+by_day <- group_by(flights, year, month, day)
+
+summarize(by_day, delay = mean(dep_delay, na.rm = TRUE))
+
+# Obtendo a relação entre a distância e o atraso médios para cada destino
+# Agrupando pelo destino
+by_dest <- group_by(flights, dest)
+
+# Resumindo a distância média, o atraso médio e o nr de vôos
+delay <- summarize(by_dest, 
+                   count = n(),
+                   dist = mean(distance, na.rm = T),
+                   delay = mean(arr_delay, na.rm = T))
+
+# Filtrando para remover pontos ruidosos e o aeroporto de Honolulu (muito longe)
+delay <- filter(delay, count > 20, dest != "HNL")
+
+ggplot(data = delay, mapping = aes(x = dist, y = delay)) +
+    geom_point(aes(size = count), alpha = 1/3) +
+    geom_smooth(se = F)
+
+# Reescrevendo o código acima com o operador pipe (%>%)
+group_by(flights, dest) %>%
+    summarize(count = n(),
+              dist = mean(distance, na.rm = T),
+              delay = mean(arr_delay, na.rm = T)) %>%
+    filter(count > 20, dest != "HNL") %>%
+    ggplot(mapping = aes(x = dist, y = delay)) +
+    geom_point(aes(size = count), alpha = 1/3) +
+    geom_smooth(se = F)
+
+# Calculando a média sem usar 'na.rm' na função 'mean'
+not_cancelled <- flights %>%
+    filter(!is.na(arr_delay), !is.na(dep_delay))
+
+delays <- not_cancelled %>%
+    group_by(tailnum) %>%
+    summarize(delay = mean(arr_delay))
+
+    ggplot(data = delays, mapping = aes(x = delay)) +
+    geom_freqpoly(binwidth = 10)
