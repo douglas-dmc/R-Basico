@@ -48,13 +48,13 @@ ggplot(data = mpg) +
     
 # Separando um gráfico com uma variável categórica
 ggplot(data = mpg) +
-    geom_point(mapping = aes(x = displ, y = hwy), size = 3, color = "blue") +
-    facet_wrap(~ class, nrow = 2)
+    geom_point(mapping = aes(x = displ, y = hwy), size = 2, color = "blue") +
+    facet_wrap(~ class, nrow = 2) # separando por tipo de carro em 2 linhas
 
 # Plotando o gráfico em uma grade com 2 variáveis categóricas
 ggplot(data = mpg) +
     geom_point(mapping = aes(x = displ, y = hwy, color = class)) +
-    facet_grid(drv ~ cyl) # as variáveis devem ser categóricas
+    facet_grid(drv ~ cyl) 
 
 # Plotando gráficos em uma grade com uma variável categórica
 ggplot(data = mpg) +
@@ -114,15 +114,15 @@ ggplot(data = diamonds) +
     geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1), width = .6)
     
 # Realizando a mesma coisa que o código anterior
-    ggplot(data = diamonds) +
-geom_bar(mapping = aes(x = cut, y = after_stat(count/sum(count))), width = .6)
+ggplot(data = diamonds) +
+    geom_bar(mapping = aes(x = cut, y = after_stat(count/sum(count))), width = .6)
 
 # Plotando um resumo dos valores de y para cada valor de x
 ggplot(data = diamonds) +
-    stat_summary(mapping = aes(x = cut, y = depth),
-                 fun.ymin = min,
-                 fun.ymax = max,
-                 fun.y = median)
+    stat_summary(aes(x = cut, y = depth),
+                 fun.min = min,
+                 fun.max = max,
+                 fun = median)
 
 # Plotando gráficos de barra coloridos
 ggplot(data = diamonds) +
