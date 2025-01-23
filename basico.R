@@ -323,15 +323,68 @@ save.image(file = "basico.RData")
 
 load("basico.RData")
 
+# Gravando os dados de um dataframe no arquivo 'dados.rds': 1 objeto por arquivo
+saveRDS(my_df_A, "dados.rds")
+
+# Lendo os dados de um arquivo .rds
+df_rds <- readRDS("dados.rds")
+
+# Gravando e lendo arquivos R no formatoo fts: maior velocidade de leitura e 
+# gravação, sendo idel para grandes dataset
+library(fst)
+
+N <- 1000
+
+my_df_B <- data.frame(x =runif(N))
+
+write.fst(my_df_B, "dado.fst")
+
+df_fst <- read.fst("dado.fst")
+
+# Testando a velocidade degravação e leitura de arquivos .rds e .fst
+N <- 2.5e8
+
+my_df <- data.frame(y = 1:N, z = rep('a', N))
+
+my_file_1 <- "dados.rds"
+my_file_2 <- "dados.fst"
+
+time_write_rds <- system.time(saveRDS(my_df, my_file_1))
+time_write_fst <- system.time(write_fst(my_df, my_file_2))
+
+time_read_rds <- system.time(readRDS(my_file_1))
+time_read_fst <- system.time(read_fst(my_file_2))
+
+file_size_rds <- file.size(my_file_1)/1000000
+file_size_fst <- file.size(my_file_2)/1000000
+
+my_formats <- c(".rds", ".fst")
+results_read <- c(time_read_rds[3], time_read_fst[3])
+results_write <- c(time_write_rds[3], time_write_fst[3])
+results_file_size <- c(file_size_rds, file_size_fst)
+
+my_text <- paste('\nTime to WRITE dataframe with', my_formats,
+                      ':', results_write, 'seconds\n', collapse = '')
+cat(my_text)
+
+my_text <- paste('\nTime to READ dataframe with', my_formats,
+                 ':', results_read, 'seconds\n', collapse = '')
+cat(my_text)
+
+my_text <- paste('\nResulting FILE SIZE', my_formats,
+                 ':', results_file_size, 'MB\n', collapse = '')
+cat(my_text)
+
+
 # Lendo arquivo com o pacote 'readr'
 library(readr)
 
-# Lendoa arquivo csv com sep = ',' e dec = '.'
+# Lendo arquivo csv com sep = ',' e dec = '.'
 oper <- read_csv("operacoes.csv",     
                    col_names = TRUE,
                    skip = 0)
 
-# Lendoa arquivo csv com sep = ';' e dec = ','
+# Lendao arquivo csv com sep = ';' e dec = ','
 f_oper <- read_csv2("foperacoes.csv", 
                     col_names = TRUE,
                     skip = 0)
