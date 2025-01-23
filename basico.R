@@ -301,10 +301,51 @@ planilhas <- excel_sheets("ativos.xlsx")
 # Cria uma lista com as planilhas do arquivo excel por iteração
 lista <- lapply(excel_sheets("ativos.xlsx"), read_excel, path = "ativos.xlsx")
 
+# Salvando arquivos no formato excel
+library(writexl)
+
+N <- 2500
+
+# Criando o dataframe
+my_df_A <- data.frame(y = seq(1:N), z = rep('a', N))
+
+# Criando o arquivo
+my_file <- paste0(getwd(), 'temp_write.xlsx')
+
+# Salvando os dados num arquivo
+write_xlsx(my_df_A, path = my_file)
+
+# Verirficando a existência do arquivo
+file.exists(my_file)
+
 # Salvando e carregando espaço de trabalho
 save.image(file = "basico.RData")
 
 load("basico.RData")
+
+# Salvando e carregando arquivos nativos do R: .RData e .rds
+
+
+# Lendo arquivos com o pacote 'readr'
+library(readr)
+
+my_cols <- cols(Ticker = col_character(), 
+                Operacao = col_factor(c("COMPRA", "VENDA")), 
+                Cotas = col_integer(), 
+                Data = col_date(format = "%d/%m/%Y"), 
+                Preco_Unitario = col_double(), 
+                Preco_Total = col_double(), 
+                Taxa_B3 = col_double(), 
+                Taxa_CBLC = col_double(), 
+                Outras_Despesas = col_double(), 
+                Preco_Final = col_double(), 
+                Subscricao = col_logical())
+
+f_opr <- read_csv2("foperacoes.csv", 
+                   skip = 0, 
+                   col_select = Ticker:Subscricao, 
+                   col_names = T, 
+                   col_types = my_cols)
 
 # EXPORTANDO ARQUIVOS
 
@@ -715,3 +756,5 @@ unlink(x = 'temp', recursive = TRUE)
 
 # Verificando a existência de um diretório
 dir.exists('temp') # d´pa um retorno TRUE/FALSE
+
+
