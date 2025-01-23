@@ -306,6 +306,46 @@ save.image(file = "basico.RData")
 
 load("basico.RData")
 
+# Lendo arquivo com o pacote 'readr'
+library(readr)
+
+# Lendoa arquivo csv com sep = ',' e dec = '.'
+oper <- read_csv("operacoes.csv",     
+                   col_names = TRUE,
+                   skip = 0)
+
+# Lendoa arquivo csv com sep = ';' e dec = ','
+f_oper <- read_csv2("foperacoes.csv", 
+                    col_names = TRUE,
+                    skip = 0)
+
+# Lendo arquivo csv com função geral (delim = ";" ou delim = ",")
+f_oper <- read_delim("foperacoes.csv", 
+                     delim = ";",
+                     col_names = TRUE,
+                     skip = 0)
+
+# Setando colunas de arquivo importado pelo 'readr'
+my_cols <- cols(Ticker = col_character(), 
+                Operacao = col_factor(c("COMPRA", "VENDA")),
+                'Nr Cotas' = col_integer(),
+                'Data da Operacao' = col_date(format = ""),
+                'Preco Unitario' = col_double(),
+                'Preco Total' = col_number(),
+                'Taxa da B3' = col_number(),
+                'Taxa da CBLC' = col_number(),
+                'Outras Despesas' = col_number(),
+                'Preco Final' = col_number(),
+                Subscricao = col_logical())
+
+
+f_oper <- read_delim("foperacoes.csv", 
+                     delim = ";",
+                     col_select = Ticker:Subscricao,
+                     col_names = TRUE,
+               #      col_types = my_cols,
+                     skip = 0)
+
 # EXPORTANDO ARQUIVOS
 
 # Formato css
@@ -715,3 +755,24 @@ unlink(x = 'temp', recursive = TRUE)
 
 # Verificando a existência de um diretório
 dir.exists('temp') # d´pa um retorno TRUE/FALSE
+
+# Criando diretórios e arquivos temporários
+temp_dir <- tempdir()
+
+print(temp_dir)
+
+temp_file <- tempfile()
+
+print(temp_file)
+
+# Baixando arquivos da internet
+link <- 'https://github.com/douglas-dmc/R-Basico/blob/main/ativos.xlsx'
+
+file.remove(tempfile())
+local <- paste0(tempfile(), '.xlsx')
+
+download.file(url = link, destfile = local)
+
+library(readxl)
+
+read_excel(path = local, col_names = T, skip = 0)
