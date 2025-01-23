@@ -301,7 +301,24 @@ planilhas <- excel_sheets("ativos.xlsx")
 # Cria uma lista com as planilhas do arquivo excel por iteração
 lista <- lapply(excel_sheets("ativos.xlsx"), read_excel, path = "ativos.xlsx")
 
-# Salvando e carregando espaço de trabalho
+# Salvando arquivos no formato excel
+library(writexl)
+
+N <- 2500
+
+# Criando o dataframe
+my_df_A <- data.frame(y = seq(1:N), z = rep('a', N))
+
+# Criando o arquivo
+my_file <- paste0(getwd(), 'temp_write.xlsx')
+
+# Salvando os dados num arquivo
+write_xlsx(my_df_A, path = my_file)
+
+# Verirficando a existência do arquivo
+file.exists(my_file)
+
+# Salvando e carregando arquivos nativos do R: .RData e .rds
 save.image(file = "basico.RData")
 
 load("basico.RData")
@@ -325,26 +342,24 @@ f_oper <- read_delim("foperacoes.csv",
                      col_names = TRUE,
                      skip = 0)
 
-# Setando colunas de arquivo importado pelo 'readr'
+
 my_cols <- cols(Ticker = col_character(), 
-                Operacao = col_factor(c("COMPRA", "VENDA")),
-                'Nr Cotas' = col_integer(),
-                'Data da Operacao' = col_date(format = ""),
-                'Preco Unitario' = col_double(),
-                'Preco Total' = col_number(),
-                'Taxa da B3' = col_number(),
-                'Taxa da CBLC' = col_number(),
-                'Outras Despesas' = col_number(),
-                'Preco Final' = col_number(),
+                Operacao = col_factor(c("COMPRA", "VENDA")), 
+                Cotas = col_integer(), 
+                Data = col_date(format = "%d/%m/%Y"), 
+                Preco_Unitario = col_double(), 
+                Preco_Total = col_double(), 
+                Taxa_B3 = col_double(), 
+                Taxa_CBLC = col_double(), 
+                Outras_Despesas = col_double(), 
+                Preco_Final = col_double(), 
                 Subscricao = col_logical())
 
-
-f_oper <- read_delim("foperacoes.csv", 
-                     delim = ";",
-                     col_select = Ticker:Subscricao,
-                     col_names = TRUE,
-               #      col_types = my_cols,
-                     skip = 0)
+f_opr <- read_csv2("foperacoes.csv", 
+                   skip = 0, 
+                   col_select = Ticker:Subscricao, 
+                   col_names = T, 
+                   col_types = my_cols)
 
 # EXPORTANDO ARQUIVOS
 
@@ -756,6 +771,7 @@ unlink(x = 'temp', recursive = TRUE)
 # Verificando a existência de um diretório
 dir.exists('temp') # d´pa um retorno TRUE/FALSE
 
+<<<<<<< HEAD
 # Criando diretórios e arquivos temporários
 temp_dir <- tempdir()
 
@@ -776,3 +792,6 @@ download.file(url = link, destfile = local)
 library(readxl)
 
 read_excel(path = local, col_names = T, skip = 0)
+=======
+
+>>>>>>> ffd48ea180486b5c977db6b4e6071ef80b2d255d
