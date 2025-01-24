@@ -414,6 +414,37 @@ f_opr <- read_csv2("foperacoes.csv",
                    col_names = T, 
                    col_types = my_cols)
 
+# Gravando arquivos no banco de dados SQLite
+library(RSQLite)
+
+N <- 1.0e6
+
+my_large_df_1 <- data.frame(X = runif(N), 
+                            G = sample(c('A', 'B'), 
+                                       size = N, 
+                                       replace = T))
+
+my_large_df_2 <- data.frame(X = runif(N), 
+                            G = sample(c('A', 'B'), 
+                                       size = N, 
+                                       replace = T))
+
+my_con <- dbConnect(drv = SQLite(), "myDatabase.SQLITE")
+
+dbWriteTable(conn = my_con, "myTable_1", value = my_large_df_1)
+dbWriteTable(conn = my_con, "myTable_2", value = my_large_df_2)
+
+dbDisconnect(my_con)
+
+# Lendo dados do banco de dados SQLite
+my_con <- dbConnect(drv = SQLite(), "myDatabase.SQLITE")
+
+my_df <- dbReadTable(conn = my_con, name = "myTable_1")
+
+my_sql <- "SELECT * FROM myTable_2 WHERE G = 'A'"
+
+my_df_G <- dbGetQuery(conn = my_con, statement = my_sql)
+
 # EXPORTANDO ARQUIVOS
 
 # Formato css
