@@ -437,7 +437,13 @@ dbWriteTable(conn = my_con, "myTable_2", value = my_large_df_2)
 dbDisconnect(my_con)
 
 # Lendo dados do banco de dados SQLite
+my_con <- dbConnect(drv = SQLite(), "myDatabase.SQLITE")
 
+my_df <- dbReadTable(conn = my_con, name = "myTable_1")
+
+my_sql <- "SELECT * FROM myTable_2 WHERE G = 'A'"
+
+my_df_G <- dbGetQuery(conn = my_con, statement = my_sql)
 
 # EXPORTANDO ARQUIVOS
 
