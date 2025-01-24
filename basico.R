@@ -364,15 +364,15 @@ results_write <- c(time_write_rds[3], time_write_fst[3])
 results_file_size <- c(file_size_rds, file_size_fst)
 
 my_text <- paste('\nTime to WRITE dataframe with', my_formats,
-                      ':', results_write, 'seconds\n', collapse = '')
+                      ':', results_write, 'seconds', collapse = '')
 cat(my_text)
 
 my_text <- paste('\nTime to READ dataframe with', my_formats,
-                 ':', results_read, 'seconds\n', collapse = '')
+                 ':', results_read, 'seconds', collapse = '')
 cat(my_text)
 
 my_text <- paste('\nResulting FILE SIZE', my_formats,
-                 ':', results_file_size, 'MB\n', collapse = '')
+                 ':', results_file_size, 'MB', collapse = '')
 cat(my_text)
 
 
