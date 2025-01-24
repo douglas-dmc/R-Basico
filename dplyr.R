@@ -227,3 +227,11 @@ delays <- not_cancelled %>%
 
     ggplot(data = delays, mapping = aes(x = delay)) +
     geom_freqpoly(binwidth = 10)
+    
+delays <- not_cancelled %>%
+    group_by(tailnum) %>%
+    summarize(delay = mean(arr_delay, na.rm = T),
+              n = n())
+
+    ggplot(data = delays, mapping = aes(x = n, y = delay)) +
+    geom_point(alpha = 1/10)
