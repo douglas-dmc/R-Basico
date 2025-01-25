@@ -125,3 +125,129 @@ ggplot(data = my_df_long) +
     theme(aspect.ratio = 1) +
     labs(title = "Desemprego de países",
          x = "data", y = "desemprego", colour = "País")
+
+# Obtendo dados com o pacote 'rbcb': repositório do BCB
+
+# Carregando o pacote
+library(rbcb)
+
+# Obtendo dados de inadimplência de crédito do sistema financeiro brasileiro
+id_series <- c(perc_default = 21082) # definindo o nome da coluna: perc_default
+first_date <- '2010-01-01'
+last_date <- '2025-01-24'
+
+# Obtendo as séries temporais do BCB
+df_cred <- get_series(id_series, 
+                      start_date = first_date, 
+                      end_date = last_date)
+
+# Visualizando a estrutura dos dados
+glimpse(df_cred)
+
+# Visualizando o gráfico de inadimplência de crédito
+ggplot(data = df_cred) +
+    geom_smooth(mapping = aes(x = date, y = perc_default), se = F) +
+    labs(title = "Inadimplência total no Sistema Financeiro Brasileiro",
+         x = "data",
+         y = "default (%)")
+
+# Obtendo os dados de inadimplência para pessoas físicas e empresas
+id_series <- c(people = 21083, companies = 21084)
+
+# Obtendo as series do BCB
+l_out <- get_series(id_series, first_date, last_date)
+
+# Visualizando a estrutura dos dados
+glimpse(l_out)
+
+# Função para limpar os dados
+clean_rbcb <- function(df_in){
+    df_in$type <- names(df_in)[2]
+    names(df_in) <- c("date", "value", "type")
+    
+    return(df_in)
+}
+
+# Chamando clean_rbcb para cada elemento de l_out
+l_out <- lapply(X = l_out, FUN = clean_rbcb)
+
+# Juntando os dataframes em l_out
+df_cred <- do.call(rbind, l_out)
+
+# Checando a estrutura dos dados
+glimpse(df_cred)
+
+# Visualizando o gráfico das inadimplências
+ggplot(data = df_cred, aes(x = date, y = value, colour = type)) +
+    geom_line() +
+    labs(title = "Inadimplência de Pessoas e Companhias (2010-2025)",
+         subtitle = "Percentual de Default de Créditos",
+         caption = "Dados obtidos do BC do Brasil",
+         x = "year",
+         y = "default (%)",
+         colour = "") +
+    scale_x_date(date_breaks = "1 year", date_labels = "%Y")
+
+# Obtendo dados da cotação do dólar
+df_dolar <- get_currency("USD", first_date, last_date)
+
+# Viauslizando a estrutura dos dados
+glimpse(df_dolar)
+
+# Visualizando o gráfico da cotação do dólar
+ggplot(data = df_dolar) +
+    geom_smooth(mapping = aes(x = date, y = bid), se = F) +
+    labs(title = "Preço do Dólar",
+         x = "data",
+         y = "cotação do dólar (R$)")
+
+# Obtendo dados de companhias com o pacote 'GetDFPData': repositório da B3 e CVM
+
+# Carregando pacote
+library(GetDFPData2)
+
+# Pesquisando por empresa
+df_search <- search_company("Petrobras", cache_folder = "gdfpd2_cache")
+
+# Obtendo informações sobre empresa
+df_cia <- get_info_companies(cache_folder = "gdfp2_cache")
+
+# Obtendo o DFP de uma empresa
+df_dfp <- get_dfp_data(9512, 
+                       first_year = '2010',
+                       last_year = lubridate::year(Sys.Date()),
+                       type_docs = 'DRE',
+                       type_format = 'con',
+                       clean_data = T,
+                       do_shiny_progress = F)
+
+# Exportando dados DFP para um artquivo excel
+export_xlsx(df_dfp, f_xlsx = "dfp.xlsx")
+
+# Verificando a existência do arquivo
+file.exists("dfp.xlsx")
+
+# Obtendo dados de alta frequência (HF) com o pacote 'GetHFData' do GitHub
+
+# Carregando pacote
+library(GetHFData)
+
+# Setando os tickers e tipo de mercado
+my_ticker <- c("PETR4", "BBDC4")
+my_type_market <- "equity"
+
+# Setando a data
+last_date <- "2024-01-24"
+
+# Obtendo os dados
+my_df <- ghfd_get_HF_data(my.assets = my_ticker, 
+                          type.market = my_type_market,
+                          first.date = last_date,
+                          last.date = last_date,
+                          first.time = '10:00:00',
+                          last.time = '16:00:00',
+                          type.output = "agg",
+                          agg.diff = "5 min")
+
+# Checando a estrutura dos dados
+glimpse(my_df)
