@@ -251,3 +251,27 @@ my_df <- ghfd_get_HF_data(my.assets = my_ticker,
 
 # Checando a estrutura dos dados
 glimpse(my_df)
+
+# Obtendo dados de títulos públicos com o pacote 'GetTDData': Tesouro Nacional
+
+# Carregando pacote
+library(GetTDData)
+
+# Setando parâmetros
+asset.codes <- 'LTN'
+maturity <- '010121'
+first.year <- 2010
+last.year <- as.numeric(format(Sys.Date(), "%Y"))
+
+# Baixando os dados
+my.flag <- td_get(asset_codes = asset.codes,
+                  first_year = first.year,
+                  last_year = last.year,
+                  dl_folder = get_cache_folder())
+
+# Visualizando a estrutura dos dados
+glimpse(my.flag)
+
+# Visualizando o gráfico dos preços de venda
+ggplot(data = my.flag) +
+    geom_line(mapping = aes(x = ref_date, y = price_bid, colour = asset.codes))
