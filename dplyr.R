@@ -30,7 +30,7 @@ str(flights)
 # hour, minute         : tempo da partida programada dividida em horas e minutos
 # time_hour            : data e hora programada do vôo
 
-# Função filter()
+#-------------------------- Função filter() ------------------------------------
 
 # Filtrando os dados de 1º de janeiro
 filter(flights, month == 1, day == 1)
@@ -44,7 +44,15 @@ filter(flights, is.na(dep_time))
 # Filtrando os vôos que partiram entre meia noite e seis da manhã
 filter(flights, between(dep_time, 600, 1200))
 
-# Função arrange()
+#-------------------------- Função distinct() ----------------------------------
+
+# Obtendo a relação das empresas aéreas (2 letras)
+carriers <- distinct(flights, carrier)
+
+# Achando o número de empresas aéreas
+nrow(carriers)
+
+#-------------------------- Função arrange() -----------------------------------
 
 # Reordenando os dados em ordem crescente de mês
 arrange(flights, month)
@@ -70,10 +78,15 @@ fun_arrange <- function(.data, var){
 
 fun_arrange(flights, carrier)
 
-# Usando funções de 'data-masking'
-arrange(pick(month, day))
+# Usando a função de 'data-masking' pick()
+arrange(flights, pick(month, day))
 
-# Função select()
+# Usando a função de 'data-masking' across()
+arrange(flights, across(starts_with("dep"), desc))
+
+arrange(flights, across(ends_with("time"), desc))
+
+#------------------------- Função select() -------------------------------------
 
 # Selecionando as colunas por índices
 select(flights, 2:5)
@@ -137,7 +150,7 @@ vars <- c("dep_time", "dep_delay", "arr_time", "arr_delay", "source")
 select(flights, any_of(vars)) # seleciona, somente, as colunas que correspondem
 # às variáveis do vetor
 
-# Função rename()
+#-------------------------- Função rename() ------------------------------------
 
 # Renomeando colunas
 rename(flights, tail_num = tailnum)
@@ -152,7 +165,9 @@ rename_with(flights, toupper, month)
 
 rename_with(flights, tolower, month)
 
-# Função mutate()
+rename_with(flights, toupper, starts_with("dep"))
+
+#-------------------------- Função mutate() ------------------------------------
 
 # Adicionando duas novas colunas que são funções de colunas existentes
 flights_new <- select(flights, year:day, ends_with("delay"), distance, air_time)
@@ -180,22 +195,36 @@ mutate(flights_new, year = NULL,
 mutate(flights_new, across(ends_with("delay"), 
                            function(x){ x - mean(x, na.rm = T) }))
 
-# Função summarize(): útil quando usada em conjunto com group_by()
+# Aplicando uma transformação a multiplas colunas
+mutate(flights, across(tailnum:dest, as.factor))
+
+# Referenciando nomes de colunas estocadas com strings com .data
+vars <- c("hour", "minute")
+
+flights %>%
+    mutate(min_total = .data[[vars[[1]]]] * 60 + .data[[vars[[2]]]], 
+           .keep = "used")
+
+# Atuando sobre variaveis selecionadas com um vetor caracter
+mutate_at(flights, c("hour", "minute"), ~ .x * 60) %>% View
+
+#--------------------------- Função summarize() --------------------------------
 
 # Calculando a média do atraso na chegada
-summarize(flights, delay = mean(dep_delay, na.rm = TRUE)) # gera uma linha de resposta
+summarise(flights, delay = mean(dep_delay, 
+                                na.rm = TRUE)) # gera uma linha de resposta
 
 # Calculando a média de atraso na chegada por dia
 by_day <- group_by(flights, year, month, day)
 
-summarize(by_day, delay = mean(dep_delay, na.rm = TRUE))
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
 
 # Obtendo a relação entre a distância e o atraso médios para cada destino
 # Agrupando pelo destino
 by_dest <- group_by(flights, dest)
 
 # Resumindo a distância média, o atraso médio e o nr de vôos
-delay <- summarize(by_dest, 
+delay <- summarise(by_dest, 
                    count = n(),
                    dist = mean(distance, na.rm = T),
                    delay = mean(arr_delay, na.rm = T))
@@ -209,7 +238,7 @@ ggplot(data = delay, mapping = aes(x = dist, y = delay)) +
 
 # Reescrevendo o código acima com o operador pipe (%>%)
 group_by(flights, dest) %>%
-    summarize(count = n(),
+    summarise(count = n(),
               dist = mean(distance, na.rm = T),
               delay = mean(arr_delay, na.rm = T)) %>%
     filter(count > 20, dest != "HNL") %>%
@@ -223,15 +252,24 @@ not_cancelled <- flights %>%
 
 delays <- not_cancelled %>%
     group_by(tailnum) %>%
-    summarize(delay = mean(arr_delay))
+    summarise(delay = mean(arr_delay))
 
     ggplot(data = delays, mapping = aes(x = delay)) +
     geom_freqpoly(binwidth = 10)
     
 delays <- not_cancelled %>%
     group_by(tailnum) %>%
-    summarize(delay = mean(arr_delay, na.rm = T),
+    summarise(delay = mean(arr_delay, na.rm = T),
               n = n())
 
     ggplot(data = delays, mapping = aes(x = n, y = delay)) +
     geom_point(alpha = 1/10)
+    
+#------------------------- Função slice() --------------------------------------
+    
+# Selecionando as linhas 20 até 30
+slice(flights, 20:30)
+    
+# Selecionando todas as linhas menos 1 até 5
+slice(flights, -(1:5))
+
