@@ -19,15 +19,15 @@ str(flights)
 ?flights
 
 # year, month, day     : data de partida
-# dep_time, arr_time   : horários programados de partida e chegada
+# dep_time, arr_time   : horários programados de partida e chegada (HHMM ou HMM)
 # dep_delay, arr_delay : atrasos de partida e chegada, em minutos
-# carrier              : abreviação da operadora aérea
+# carrier              : abreviação da operadora aérea (2 letras)
 # flight               : número do vôo
 # tailnum              : número da cauda do avião
-# origin, dest         : origem e destino
+# origin, dest         : origem e destino (aeroportos)
 # air_time             : tempo gasto no ar, em minutos
 # distance             : distância entre aeroportos, em milhas
-# hour, minute         : hora da partida programada dividida em horas e minutos
+# hour, minute         : tempo da partida programada dividida em horas e minutos
 # time_hour            : data e hora programada do vôo
 
 # Função filter()
