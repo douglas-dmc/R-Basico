@@ -273,3 +273,19 @@ slice(flights, 20:30)
 # Selecionando todas as linhas menos 1 até 5
 slice(flights, -(1:5))
 
+# Selecionando a última observação
+slice(flights, n())
+
+slice_tail(flights, n = 1)
+
+# Selecionando as 5 últimas observações
+slice_tail(flights, n = 5)
+
+# Selecionando as 6 primeiras observações
+slice_head(flights, n = 6)
+
+# Selecionando a linha com o menor valor da variável arr_delay
+slice_min(flights, arr_delay)
+
+# Selecionando a linha com o maior valor de arr_delay
+slice_max(flights, arr_delay)
