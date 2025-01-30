@@ -264,3 +264,12 @@ delays <- not_cancelled %>%
 
     ggplot(data = delays, mapping = aes(x = n, y = delay)) +
     geom_point(alpha = 1/10)
+    
+#------------------------- Função slice() --------------------------------------
+    
+# Selecionando as linhas 20 até 30
+slice(flights, 20:30)
+    
+# Selecionando todas as linhas menos 1 até 5
+slice(flights, -(1:5))
+
