@@ -82,3 +82,7 @@ anscombe %>%
                  names_to = c(".value", "set"),
                  cols_vary = "slowest",
                  names_pattern = "(.)(.)")
+
+
+
+
