@@ -124,7 +124,7 @@ for(n_page in 1:total_pages[[1]]){
     
     
     # Visualizando a estrutura dos dados
-    print("Visualizando a estrutura do dataframe ", n_page)
+    cat("\nVisualizando a estrutura do dataframe", n_page, "\n")
     glimpse(df)
     
     l_out[[n_page]] <- df
@@ -139,6 +139,16 @@ df_plus <- full_join(df_plus, l_out[[3]])
 df_plus <- df_plus %>%
             na.omit()
 
+# Resumindo os dados
+df_summary <- df_plus %>% group_by(Ticker) %>%
+        summarise(Cotas = sum(Quantidade), 
+                  Preco = sum(Valor_Operacao)) %>%
+        mutate(Preco_Unitario = Preco / Cotas, 
+               .after = Cotas)
+
+# Acrescentando a data de negociação no dataframe
+df_summary %>% cbind(negotiation_date) %>%
+    select(negotiation_date, everything())
 
 
 
