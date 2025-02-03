@@ -6,10 +6,11 @@
 ################################################################################
 
 # Carregando pacote
+library(tidyverse)
 library(dplyr)
 library(pdftools)
 
-path <- "C:/Users/marqu/Documents/IR 2025/2025-01-31 - XP-NotaNegociacao - BARI11-MFII11-TGAR11-BODB11.pdf"
+#path <- "C:/Users/marqu/Documents/IR 2025/2025-01-31 - XP-NotaNegociacao - BARI11-MFII11-TGAR11-BODB11.pdf"
 path <- "C:/Users/marqu/Documents/IR 2024/2024-12-05- XP-NotaNegociacao - BARI11-MFII11-RZTR11-VGHF11.pdf"
 
 # Obtendo o numero de páginas
@@ -119,12 +120,19 @@ for(n_page in 1:total_pages[[1]]){
     df$Preco <- as.double(df$Preco)
     
     # Convertendo a coluna 'Valor_Operacao' em double
-    df$Valor_Operacao <- str_replace_all(df$Valor_Operacao, ",", ".")
+    # df$Valor_Operacao <- str_replace_all(df$Valor_Operacao, ",", ".")
+    # 
+    # for(i in df$Valor_Operacao){
+    #     if (i > 7){
+    #         df$Valor_Operacao <- str_replace(df$Valor_Operacao, "\\.", ",")
+    #     }
+    # }
     df$Valor_Operacao <- as.double(df$Valor_Operacao)
     
     
     # Visualizando a estrutura dos dados
     cat("\nVisualizando a estrutura do dataframe", n_page, "\n")
+    
     glimpse(df)
     
     l_out[[n_page]] <- df
@@ -173,27 +181,5 @@ total_expenses <- emolumentos + cblc + tax_irrf + expenses
 
 
 
-nr_assets <- tapply(df$Quantidade, df$Ticker, sum)
-nr_assets_2 <- tapply(df_2$Quantidade, df_2$Ticker, sum)
-nr_assets_3 <- tapply(df_3$Quantidade, df_3$Ticker, sum)
-nr_assets_plus <- c(nr_assets, nr_assets_2, nr_assets_3)
 
-total_price_assets <- tapply(df$Valor_Operacao, df$Ticker, sum)
-total_price_assets_2 <- tapply(df_2$Valor_Operacao, df_2$Ticker, sum)
-total_price_assets_3 <- tapply(df_3$Valor_Operacao, df_3$Ticker, sum)
-total_price_assets_plus <- c(total_price_assets, total_price_assets_2, 
-                             total_price_assets_3)
 
-df_summary <- data.frame(negotiation_date, nr_assets_plus, total_price_assets_plus)
-
-df_summary <- df_summary %>% 
-    mutate(unit_price_assets = total_price_assets_plus / nr_assets_plus, 
-           .after = nr_assets_plus) %>%
-    mutate(x = total_price_assets_plus / sum(total_price_assets_plus)) %>%
-    mutate(B3 = x * emolumentos) %>%
-    mutate(CBLC = x * cblc) %>%
-    mutate(IRRF = x * tax_irrf) %>%
-    mutate(other_expenses = x * expenses) %>%
-    mutate(final_price = (B3 + CBLC + IRRF + other_expenses + 
-                              total_price_assets_plus)) %>%
-    mutate(x = NULL)
