@@ -147,8 +147,8 @@ df_summary <- df_plus %>% group_by(Ticker) %>%
                .after = Cotas)
 
 # Acrescentando a data de negociação no dataframe
-df_summary %>% cbind(negotiation_date) %>%
-    select(negotiation_date, everything())
+df_summary %>% mutate(Data = negotiation_date) %>%
+    select(Data, everything())
 
 
 
